@@ -7,6 +7,7 @@ defmodule Sahraeczane.Provinces do
   alias Sahraeczane.Repo
 
   alias Sahraeczane.Provinces.Province
+  alias Sahraeczane.Districts.District
 
   @doc """
   Returns the list of provinces.

@@ -22,6 +22,19 @@ defmodule Sahraeczane.Districts do
   end
 
   @doc """
+  Returns the list of districts by province.
+
+  ## Examples 
+
+      iex> list_districts_by_province(1)
+      [%District{}, ...]
+  
+  """
+  def list_districts_by_province(province_id) do
+    Repo.all(from d in District, where: d.province_id == ^province_id)
+  end
+
+  @doc """
   Gets a single district.
 
   Raises `Ecto.NoResultsError` if the District does not exist.

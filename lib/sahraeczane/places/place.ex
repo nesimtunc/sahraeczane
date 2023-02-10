@@ -12,8 +12,8 @@ defmodule Sahraeczane.Places.Place do
     field :phone, :string
     field :type, Ecto.Enum, values: [:pharmacy, :hospital, :other]
     field :working_hours, :string
-    field :province_id, :id
-    field :district_id, :id
+    belongs_to :province, Provinces.Province, foreign_key: :province_id
+    belongs_to :district, Provinces.Province, foreign_key: :district_id
 
     timestamps()
   end
@@ -21,7 +21,28 @@ defmodule Sahraeczane.Places.Place do
   @doc false
   def changeset(place, attrs) do
     place
-    |> cast(attrs, [:name, :custom_id, :latitude, :longitude, :phone, :address, :address2, :working_hours, :type])
-    |> validate_required([:name, :custom_id, :latitude, :longitude, :address, :type])
+    |> cast(attrs, [
+      :name,
+      :custom_id,
+      :latitude,
+      :longitude,
+      :phone,
+      :province_id,
+      :district_id,
+      :address,
+      :address2,
+      :working_hours,
+      :type
+    ])
+    |> validate_required([
+      :name,
+      :custom_id,
+      :province_id,
+      :district_id,
+      :latitude,
+      :longitude,
+      :address,
+      :type
+    ])
   end
 end

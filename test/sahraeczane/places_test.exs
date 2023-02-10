@@ -2,13 +2,25 @@ defmodule Sahraeczane.PlacesTest do
   use Sahraeczane.DataCase
 
   alias Sahraeczane.Places
+  alias Sahraeczane.Provinces
+  alias Sahraeczane.Districts
 
   describe "places" do
     alias Sahraeczane.Places.Place
 
     import Sahraeczane.PlacesFixtures
 
-    @invalid_attrs %{address: nil, address2: nil, custom_id: nil, latitude: nil, longitude: nil, name: nil, phone: nil, type: nil, working_hours: nil}
+    @invalid_attrs %{
+      address: nil,
+      address2: nil,
+      custom_id: nil,
+      latitude: nil,
+      longitude: nil,
+      name: nil,
+      phone: nil,
+      type: nil,
+      working_hours: nil
+    }
 
     test "list_places/0 returns all places" do
       place = place_fixture()
@@ -21,7 +33,22 @@ defmodule Sahraeczane.PlacesTest do
     end
 
     test "create_place/1 with valid data creates a place" do
-      valid_attrs = %{address: "some address", address2: "some address2", custom_id: "some custom_id", latitude: 120.5, longitude: 120.5, name: "some name", phone: "some phone", type: :pharmacy, working_hours: "some working_hours"}
+      {:ok, province} = Provinces.create_province(%{name: "some name"})
+      {:ok, district} = Districts.create_district(%{name: "some name", province_id: province.id})
+
+      valid_attrs = %{
+        address: "some address",
+        address2: "some address2",
+        custom_id: "some custom_id",
+        latitude: 120.5,
+        longitude: 120.5,
+        name: "some name",
+        phone: "some phone",
+        type: :pharmacy,
+        working_hours: "some working_hours",
+        province_id: province.id,
+        district_id: district.id
+      }
 
       assert {:ok, %Place{} = place} = Places.create_place(valid_attrs)
       assert place.address == "some address"
@@ -41,7 +68,18 @@ defmodule Sahraeczane.PlacesTest do
 
     test "update_place/2 with valid data updates the place" do
       place = place_fixture()
-      update_attrs = %{address: "some updated address", address2: "some updated address2", custom_id: "some updated custom_id", latitude: 456.7, longitude: 456.7, name: "some updated name", phone: "some updated phone", type: :hospital, working_hours: "some updated working_hours"}
+
+      update_attrs = %{
+        address: "some updated address",
+        address2: "some updated address2",
+        custom_id: "some updated custom_id",
+        latitude: 456.7,
+        longitude: 456.7,
+        name: "some updated name",
+        phone: "some updated phone",
+        type: :hospital,
+        working_hours: "some updated working_hours"
+      }
 
       assert {:ok, %Place{} = place} = Places.update_place(place, update_attrs)
       assert place.address == "some updated address"
