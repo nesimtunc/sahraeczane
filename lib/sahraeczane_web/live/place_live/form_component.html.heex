@@ -1,0 +1,52 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="place-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  
+    <%= label f, :custom_id %>
+    <%= text_input f, :custom_id %>
+    <%= error_tag f, :custom_id %>
+  
+    <%= label f, :latitude %>
+    <%= number_input f, :latitude, step: "any" %>
+    <%= error_tag f, :latitude %>
+  
+    <%= label f, :longitude %>
+    <%= number_input f, :longitude, step: "any" %>
+    <%= error_tag f, :longitude %>
+  
+    <%= label f, :phone %>
+    <%= text_input f, :phone %>
+    <%= error_tag f, :phone %>
+  
+    <%= label f, :address %>
+    <%= text_input f, :address %>
+    <%= error_tag f, :address %>
+  
+    <%= label f, :address2 %>
+    <%= text_input f, :address2 %>
+    <%= error_tag f, :address2 %>
+  
+    <%= label f, :working_hours %>
+    <%= text_input f, :working_hours %>
+    <%= error_tag f, :working_hours %>
+  
+    <%= label f, :type %>
+    <%= select f, :type, Ecto.Enum.values(Sahraeczane.Places.Place, :type), prompt: "Choose a value" %>
+    <%= error_tag f, :type %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

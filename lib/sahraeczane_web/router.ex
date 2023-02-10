@@ -17,7 +17,12 @@ defmodule SahraeczaneWeb.Router do
   scope "/", SahraeczaneWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", PlaceLive.Index, :index
+    live "/places/new", PlaceLive.Index, :new
+    live "/places/:id/edit", PlaceLive.Index, :edit
+
+    live "/places/:id", PlaceLive.Show, :show
+    live "/places/:id/show/edit", PlaceLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

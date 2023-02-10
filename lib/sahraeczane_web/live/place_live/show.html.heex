@@ -1,0 +1,66 @@
+<h1>Show Place</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.place_show_path(@socket, :show, @place)}>
+    <.live_component
+      module={SahraeczaneWeb.PlaceLive.FormComponent}
+      id={@place.id}
+      title={@page_title}
+      action={@live_action}
+      place={@place}
+      return_to={Routes.place_show_path(@socket, :show, @place)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @place.name %>
+  </li>
+
+  <li>
+    <strong>Custom:</strong>
+    <%= @place.custom_id %>
+  </li>
+
+  <li>
+    <strong>Latitude:</strong>
+    <%= @place.latitude %>
+  </li>
+
+  <li>
+    <strong>Longitude:</strong>
+    <%= @place.longitude %>
+  </li>
+
+  <li>
+    <strong>Phone:</strong>
+    <%= @place.phone %>
+  </li>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @place.address %>
+  </li>
+
+  <li>
+    <strong>Address2:</strong>
+    <%= @place.address2 %>
+  </li>
+
+  <li>
+    <strong>Working hours:</strong>
+    <%= @place.working_hours %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @place.type %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.place_show_path(@socket, :edit, @place), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.place_index_path(@socket, :index) %></span>
