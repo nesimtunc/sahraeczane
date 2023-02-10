@@ -21,9 +21,11 @@ defmodule SahraeczaneWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", SahraeczaneWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", SahraeczaneWeb do
+    pipe_through :api
+
+    resources "/provinces", ProvinceController, only: [:index]
+  end
 
   # Enables LiveDashboard only for development
   #
@@ -40,6 +42,13 @@ defmodule SahraeczaneWeb.Router do
 
       live_dashboard "/dashboard", metrics: SahraeczaneWeb.Telemetry
     end
+
+    scope "/api", SahraeczaneWeb do
+      pipe_through :api
+
+      resources "/provinces", ProvinceController
+    end
+
   end
 
   # Enables the Swoosh mailbox preview in development.
