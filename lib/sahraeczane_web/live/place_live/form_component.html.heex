@@ -5,8 +5,6 @@
     let={f}
     for={@changeset}
     id="place-form"
-    phx-target={@myself}
-    phx-change="validate"
     phx-submit="save">
   
     <%= label f, :name %>
@@ -28,6 +26,14 @@
     <%= label f, :phone %>
     <%= text_input f, :phone %>
     <%= error_tag f, :phone %>
+
+    <%= label f, :province_id %>
+    <%= select f, :province_id, Enum.map(@provinces, &{&1.name, &1.id}), prompt: "Choose a Province", phx_change: "province_changed", phx_target: @myself %>
+    <%= error_tag f, :province_id %>
+
+    <%= label f, :district_id %>
+    <%= select f, :province_id, Enum.map(@districts, &{&1.name, &1.id}), prompt: "Choose a Province" %>
+    <%= error_tag f, :province_id %>
   
     <%= label f, :address %>
     <%= text_input f, :address %>

@@ -38,7 +38,10 @@ defmodule Sahraeczane.Seeds do
         districts
         |> Enum.filter(fn district -> district.province_id == Integer.to_string(result.id) end)
         |> Enum.each(fn district ->
-          IO.puts("Province id from csv: #{district.province_id} #{district.name} and db record id : #{result.id} #{result.name}") 
+          IO.puts(
+            "Province id from csv: #{district.province_id} #{district.name} and db record id : #{result.id} #{result.name}"
+          )
+
           with {:ok, _} <-
                  Districts.create_district(%{
                    name: district.name,

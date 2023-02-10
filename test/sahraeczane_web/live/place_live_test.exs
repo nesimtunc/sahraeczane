@@ -4,9 +4,39 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
   import Phoenix.LiveViewTest
   import Sahraeczane.PlacesFixtures
 
-  @create_attrs %{address: "some address", address2: "some address2", custom_id: "some custom_id", latitude: 120.5, longitude: 120.5, name: "some name", phone: "some phone", type: :pharmacy, working_hours: "some working_hours"}
-  @update_attrs %{address: "some updated address", address2: "some updated address2", custom_id: "some updated custom_id", latitude: 456.7, longitude: 456.7, name: "some updated name", phone: "some updated phone", type: :hospital, working_hours: "some updated working_hours"}
-  @invalid_attrs %{address: nil, address2: nil, custom_id: nil, latitude: nil, longitude: nil, name: nil, phone: nil, type: nil, working_hours: nil}
+  @create_attrs %{
+    address: "some address",
+    address2: "some address2",
+    custom_id: "some custom_id",
+    latitude: 120.5,
+    longitude: 120.5,
+    name: "some name",
+    phone: "some phone",
+    type: :pharmacy,
+    working_hours: "some working_hours"
+  }
+  @update_attrs %{
+    address: "some updated address",
+    address2: "some updated address2",
+    custom_id: "some updated custom_id",
+    latitude: 456.7,
+    longitude: 456.7,
+    name: "some updated name",
+    phone: "some updated phone",
+    type: :hospital,
+    working_hours: "some updated working_hours"
+  }
+  @invalid_attrs %{
+    address: nil,
+    address2: nil,
+    custom_id: nil,
+    latitude: nil,
+    longitude: nil,
+    name: nil,
+    phone: nil,
+    type: nil,
+    working_hours: nil
+  }
 
   defp create_place(_) do
     place = place_fixture()
