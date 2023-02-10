@@ -25,6 +25,7 @@ defmodule SahraeczaneWeb.Router do
     pipe_through :api
 
     resources "/provinces", ProvinceController, only: [:index]
+    resources "/districts", DistrictController, only: [:index]
   end
 
   # Enables LiveDashboard only for development
@@ -47,8 +48,8 @@ defmodule SahraeczaneWeb.Router do
       pipe_through :api
 
       resources "/provinces", ProvinceController
+      resources "/districts", DistrictController
     end
-
   end
 
   # Enables the Swoosh mailbox preview in development.

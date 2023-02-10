@@ -46,7 +46,10 @@ defmodule SahraeczaneWeb.ProvinceControllerTest do
   describe "update province" do
     setup [:create_province]
 
-    test "renders province when data is valid", %{conn: conn, province: %Province{id: id} = province} do
+    test "renders province when data is valid", %{
+      conn: conn,
+      province: %Province{id: id} = province
+    } do
       conn = put(conn, Routes.province_path(conn, :update, province), province: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
