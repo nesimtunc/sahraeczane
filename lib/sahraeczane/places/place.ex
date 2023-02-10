@@ -12,7 +12,7 @@ defmodule Sahraeczane.Places.Place do
     field :phone, :string
     field :type, Ecto.Enum, values: [:pharmacy, :hospital, :other]
     field :working_hours, :string
-    field :provice_id, :id
+    field :province_id, :id
     field :district_id, :id
 
     timestamps()
@@ -22,6 +22,6 @@ defmodule Sahraeczane.Places.Place do
   def changeset(place, attrs) do
     place
     |> cast(attrs, [:name, :custom_id, :latitude, :longitude, :phone, :address, :address2, :working_hours, :type])
-    |> validate_required([:name, :custom_id, :latitude, :longitude, :phone, :address, :address2, :working_hours, :type])
+    |> validate_required([:name, :custom_id, :latitude, :longitude, :address, :type])
   end
 end

@@ -12,13 +12,13 @@ defmodule Sahraeczane.Repo.Migrations.CreatePlaces do
       add :address2, :string
       add :working_hours, :string
       add :type, :string
-      add :provice_id, references(:provinces, on_delete: :nothing)
+      add :province_id, references(:provinces, on_delete: :nothing)
       add :district_id, references(:districts, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:places, [:provice_id])
+    create index(:places, [:province_id])
     create index(:places, [:district_id])
   end
 end
