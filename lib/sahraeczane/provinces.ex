@@ -7,7 +7,6 @@ defmodule Sahraeczane.Provinces do
   alias Sahraeczane.Repo
 
   alias Sahraeczane.Provinces.Province
-  alias Sahraeczane.Districts.District
 
   @doc """
   Returns the list of provinces.
@@ -19,7 +18,8 @@ defmodule Sahraeczane.Provinces do
 
   """
   def list_provinces do
-    Repo.all(Province)
+    filter = [1, 31, 33, 46, 27, 80, 63, 44, 2, 47, 21]
+    Repo.all(from p in Province, where: p.id in ^filter)
   end
 
   @doc """

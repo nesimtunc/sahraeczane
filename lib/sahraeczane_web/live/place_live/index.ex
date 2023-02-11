@@ -5,7 +5,6 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
   alias Sahraeczane.Places.Place
   alias Sahraeczane.Provinces
   alias Sahraeczane.Districts
-  
 
   @impl true
   def mount(_params, _session, socket) do
@@ -18,14 +17,20 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    place = Places.get_place!(id)
+    provinces = Provinces.list_provinces()
+    districts = Districts.list_districts_by_province(place.province_id)
+
     socket
     |> assign(:page_title, "Edit Place")
-    |> assign(:place, Places.get_place!(id))
+    |> assign(:provinces, provinces)
+    |> assign(:districts, districts)
+    |> assign(:place, place)
   end
 
   defp apply_action(socket, :new, _params) do
     provinces = Provinces.list_provinces()
-    first_province = provinces |> Enum.at(1)
+    first_province = provinces |> Enum.at(0)
 
     socket
     |> assign(:provinces, provinces)
@@ -48,13 +53,6 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
     {:ok, _} = Places.delete_place(place)
 
     {:noreply, assign(socket, :places, list_places())}
-  end
-
-  @impl true
-  def handle_event("province_changed", params, socket) do
-    IO.inspect(params)
-    # {:noreply, assign(socket, :districts, Districts.list_districts_by_province(params["province_id"]))}
-    {:noreply, socket}
   end
 
   defp list_places do

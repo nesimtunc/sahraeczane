@@ -28,7 +28,7 @@ defmodule Sahraeczane.Districts do
 
       iex> list_districts_by_province(1)
       [%District{}, ...]
-  
+
   """
   def list_districts_by_province(province_id) do
     Repo.all(from d in District, where: d.province_id == ^province_id)
