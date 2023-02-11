@@ -2,6 +2,9 @@ defmodule Sahraeczane.PlacesFixtures do
   alias Sahraeczane.Provinces
   alias Sahraeczane.Districts
 
+  import Sahraeczane.ProvincesFixtures
+  import Sahraeczane.DistrictsFixtures
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `Sahraeczane.Places` context.
@@ -11,8 +14,8 @@ defmodule Sahraeczane.PlacesFixtures do
   Generate a place.
   """
   def place_fixture(attrs \\ %{}) do
-    {:ok, province} = Provinces.create_province(%{name: "some name"})
-    {:ok, district} = Districts.create_district(%{name: "some name", province_id: province.id})
+    district = district_fixture
+
 
     {:ok, place} =
       attrs
@@ -26,7 +29,7 @@ defmodule Sahraeczane.PlacesFixtures do
         phone: "some phone",
         type: :pharmacy,
         working_hours: "some working_hours",
-        province_id: province.id,
+        province_id: district.province_id,
         district_id: district.id
       })
       |> Sahraeczane.Places.create_place()

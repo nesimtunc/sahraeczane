@@ -29,7 +29,11 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
-    provinces = Provinces.list_effected_provinces()
+    provinces =
+      if Mix.env() == :test,
+        do: Provinces.list_provinces(),
+        else: Provinces.list_effected_provinces()
+
     first_province = provinces |> Enum.at(0)
 
     socket
