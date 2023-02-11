@@ -2,6 +2,7 @@ defmodule SahraeczaneWeb.PlaceLive.FormComponent do
   use SahraeczaneWeb, :live_component
 
   alias Sahraeczane.Places
+  alias Sahraeczane.Districts
 
   @impl true
   def update(%{place: place} = assigns, socket) do
@@ -21,6 +22,14 @@ defmodule SahraeczaneWeb.PlaceLive.FormComponent do
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  @impl true
+  def handle_event("province_changed", params, socket) do
+    place = Map.get(params, "place")
+    province_id = Map.get(place, "province_id")
+    districts = Districts.list_districts_by_province(province_id)
+    {:noreply, assign(socket, :districts, districts)}
   end
 
   def handle_event("save", %{"place" => place_params}, socket) do
