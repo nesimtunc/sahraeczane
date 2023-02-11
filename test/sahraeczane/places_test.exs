@@ -9,6 +9,7 @@ defmodule Sahraeczane.PlacesTest do
     alias Sahraeczane.Places.Place
 
     import Sahraeczane.PlacesFixtures
+    import Sahraeczane.DistrictsFixtures
 
     @invalid_attrs %{
       address: nil,
@@ -22,6 +23,12 @@ defmodule Sahraeczane.PlacesTest do
       working_hours: nil
     }
 
+    setup [:create_district]
+
+    defp create_district(_) do
+      %{district: district_fixture() }
+    end
+
     test "list_places/0 returns all places" do
       place = place_fixture()
       assert Places.list_places() == [place]
@@ -33,9 +40,6 @@ defmodule Sahraeczane.PlacesTest do
     end
 
     test "create_place/1 with valid data creates a place" do
-      {:ok, province} = Provinces.create_province(%{name: "some name"})
-      {:ok, district} = Districts.create_district(%{name: "some name", province_id: province.id})
-
       valid_attrs = %{
         address: "some address",
         address2: "some address2",
@@ -46,9 +50,12 @@ defmodule Sahraeczane.PlacesTest do
         phone: "some phone",
         type: :pharmacy,
         working_hours: "some working_hours",
-        province_id: province.id,
-        district_id: district.id
       }
+
+      province = Provinces.list_provinces() |> List.last()
+      district = Districts.list_districts_by_province(province.id) |> List.first()
+
+      valid_attrs = Map.put(valid_attrs, :province_id, province.id) |> Map.put(:district_id, district.id)
 
       assert {:ok, %Place{} = place} = Places.create_place(valid_attrs)
       assert place.address == "some address"
@@ -60,6 +67,8 @@ defmodule Sahraeczane.PlacesTest do
       assert place.phone == "some phone"
       assert place.type == :pharmacy
       assert place.working_hours == "some working_hours"
+      assert place.province_id == province.id
+      assert place.district_id == district.id
     end
 
     test "create_place/1 with invalid data returns error changeset" do

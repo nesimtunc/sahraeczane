@@ -3,6 +3,10 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
 
   import Phoenix.LiveViewTest
   import Sahraeczane.PlacesFixtures
+  import Sahraeczane.DistrictsFixtures
+
+  alias Sahraeczane.Provinces
+  alias Sahraeczane.Districts
 
   @create_attrs %{
     address: "some address",
@@ -13,7 +17,7 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
     name: "some name",
     phone: "some phone",
     type: :pharmacy,
-    working_hours: "some working_hours"
+    working_hours: "some working_hours",
   }
   @update_attrs %{
     address: "some updated address",
@@ -24,7 +28,7 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
     name: "some updated name",
     phone: "some updated phone",
     type: :hospital,
-    working_hours: "some updated working_hours"
+    working_hours: "some updated working_hours",
   }
   @invalid_attrs %{
     address: nil,
@@ -35,7 +39,9 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
     name: nil,
     phone: nil,
     type: nil,
-    working_hours: nil
+    working_hours: nil,
+    province_id: nil,
+    district_id: nil,
   }
 
   defp create_place(_) do
@@ -43,7 +49,12 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
     %{place: place}
   end
 
+  defp create_district(_) do
+    %{district: district_fixture()}
+  end
+
   describe "Index" do
+    setup [:create_district]
     setup [:create_place]
 
     test "lists all places", %{conn: conn, place: place} do
@@ -65,9 +76,15 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
              |> form("#place-form", place: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      province = Provinces.list_provinces() |> List.first()
+      district = Districts.list_districts_by_province(province.id) |> List.first()
+
+      create_attrs =
+        Map.merge(@create_attrs, %{province_id: province.id, district_id: district.id})
+
       {:ok, _, html} =
         index_live
-        |> form("#place-form", place: @create_attrs)
+        |> form("#place-form", place: create_attrs)
         |> render_submit()
         |> follow_redirect(conn, Routes.place_index_path(conn, :index))
 
@@ -106,6 +123,7 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
   end
 
   describe "Show" do
+    setup [:create_district]
     setup [:create_place]
 
     test "displays place", %{conn: conn, place: place} do
@@ -127,9 +145,15 @@ defmodule SahraeczaneWeb.PlaceLiveTest do
              |> form("#place-form", place: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      province = Provinces.list_provinces() |> List.last()
+      district = Districts.list_districts_by_province(province.id) |> List.first()
+
+      update_attrs =
+        Map.merge(@update_attrs, %{province_id: province.id, district_id: district.id})
+
       {:ok, _, html} =
         show_live
-        |> form("#place-form", place: @update_attrs)
+        |> form("#place-form", place: update_attrs)
         |> render_submit()
         |> follow_redirect(conn, Routes.place_show_path(conn, :show, place))
 

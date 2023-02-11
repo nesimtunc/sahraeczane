@@ -22,7 +22,7 @@ defmodule Sahraeczane.Provinces do
     Repo.all(from p in Province, where: p.id in ^filter)
   end
 
-   @doc """
+  @doc """
   Returns the list of provinces.
 
   ## Examples
