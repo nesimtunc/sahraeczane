@@ -18,7 +18,7 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     place = Places.get_place!(id)
-    provinces = Provinces.list_provinces()
+    provinces = Provinces.list_effected_provinces()
     districts = Districts.list_districts_by_province(place.province_id)
 
     socket
@@ -29,7 +29,7 @@ defmodule SahraeczaneWeb.PlaceLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
-    provinces = Provinces.list_provinces()
+    provinces = Provinces.list_effected_provinces()
     first_province = provinces |> Enum.at(0)
 
     socket

@@ -9,7 +9,7 @@ defmodule Sahraeczane.Provinces do
   alias Sahraeczane.Provinces.Province
 
   @doc """
-  Returns the list of provinces.
+  Returns the list of provinces that has been effected in the Earthquake area.
 
   ## Examples
 
@@ -17,9 +17,22 @@ defmodule Sahraeczane.Provinces do
       [%Province{}, ...]
 
   """
-  def list_provinces do
+  def list_effected_provinces do
     filter = [1, 31, 33, 46, 27, 80, 63, 44, 2, 47, 21]
     Repo.all(from p in Province, where: p.id in ^filter)
+  end
+
+   @doc """
+  Returns the list of provinces.
+
+  ## Examples
+
+      iex> list_effected_provinces()
+      [%Province{}, ...]
+
+  """
+  def list_provinces do
+    Repo.all(Province)
   end
 
   @doc """
